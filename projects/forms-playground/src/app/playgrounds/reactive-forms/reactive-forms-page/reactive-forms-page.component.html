@@ -16,24 +16,8 @@
       type="text"
       id="nick-name"
       placeholder="Come up with a nick name"
+      validationErrorTracker
     />
-    @if(this.form.get('nickname')?.dirty) {
-      @if (this.form.get('nickname')?.hasError('required')) {
-        <div class="input-error">This field is required</div>
-      }
-      @if (this.form.get('nickname')?.hasError('minlength')) {
-        <div class="input-error">This field is too short</div>
-      }
-      @if (this.form.get('nickname')?.hasError('pattern')) {
-        <div class="input-error">Only letters, numbers and _ is allowed</div>
-      }
-      @if (this.form.get('nickname')?.hasError('banWords')) {
-        <div class="input-error">This word is not allowed</div>
-      }
-      @if (this.form.get('nickname')?.hasError('uniqueName')) {
-        <div class="input-error">This nickname is already taken</div>
-      }
-    }
   </div>
   <div class="form-field">
     <label for="email">Email</label>
@@ -42,15 +26,8 @@
       type="email"
       id="email"
       placeholder="Provide your email"
+      validationErrorTracker
     />
-    @if(this.form.get('email')?.dirty) {
-      @if (this.form.get('email')?.hasError('required')) {
-        <div class="input-error">This field is required</div>
-      }
-      @if (this.form.get('email')?.hasError('email')) {
-        <div class="input-error">It is not a valid email</div>
-      }
-    }
   </div>
   <div class="form-field-inline-group">
     <div class="form-field form-field--small">
@@ -66,6 +43,7 @@
         type="text"
         id="passport"
         placeholder="Provide Passport Data"
+        validationErrorTracker
       />
     </div>
   </div>
