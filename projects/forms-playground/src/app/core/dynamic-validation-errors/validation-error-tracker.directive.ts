@@ -1,7 +1,7 @@
-import { ComponentRef, Directive, OnDestroy, OnInit, ViewContainerRef, inject } from '@angular/core';
+import { ComponentRef, Directive, ElementRef, OnDestroy, OnInit, ViewContainerRef, inject } from '@angular/core';
 import { FormControlName } from '@angular/forms';
 import { ErrorsListComponent } from './errors-list.component';
-import { Subscription, startWith } from 'rxjs';
+import { Subscription, fromEvent, merge, startWith } from 'rxjs';
 import { ErrorDisplayStrategy } from './error-display-strategy.service';
 
 @Directive({
@@ -16,6 +16,7 @@ export class ValidationErrorTrackerDirective implements OnInit, OnDestroy {
   errorDisplayStrategy = inject(ErrorDisplayStrategy);
 
   #formControlStatus!: Subscription;
+  #nativeEl = inject(ElementRef).nativeElement;
   /**
    * This directive is responsible for listening to the status changes (Valid/Invalid)
    * of the formControl which resides on the same node with this directive.
@@ -24,7 +25,10 @@ export class ValidationErrorTrackerDirective implements OnInit, OnDestroy {
    * as an input for errors-list component. Otherwise, the component has to be destroyed.
    */
   ngOnInit() {
-    this.#formControlStatus = this.formControl.control.statusChanges.pipe(
+    this.#formControlStatus = merge(
+      this.formControl.control.statusChanges,
+      fromEvent(this.#nativeEl, 'blur') //<-- add support for blur event
+    ).pipe(
       startWith(this.formControl.control.status)
     ).subscribe(() => {
       if (this.errorDisplayStrategy.isErrorVisible(this.formControl.control)) {

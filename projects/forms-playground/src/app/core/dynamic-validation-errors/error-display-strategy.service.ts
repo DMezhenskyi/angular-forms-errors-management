@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AbstractControl, FormGroupDirective } from '@angular/forms';
 
 export interface ErrorDisplayStrategy {
-  isErrorVisible(control: AbstractControl | null, form: FormGroupDirective | null): boolean;
+  isErrorVisible(control: AbstractControl | null, form?: FormGroupDirective | null): boolean;
 }
 
 @Injectable({
@@ -17,5 +17,11 @@ export class ErrorDisplayStrategy implements ErrorDisplayStrategy {
    */
   isErrorVisible(control: AbstractControl | null, form?: FormGroupDirective | null) {
     return control && control.invalid && control.dirty;
+  }
+}
+
+export class DisplayErrorOnTouchStrategy implements ErrorDisplayStrategy {
+  isErrorVisible(control: AbstractControl | null, form?: FormGroupDirective | null) {
+    return Boolean((control && control.invalid) && control.touched);
   }
 }

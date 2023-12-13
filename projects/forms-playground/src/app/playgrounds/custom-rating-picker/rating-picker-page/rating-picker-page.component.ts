@@ -6,6 +6,7 @@ import {
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ValidationErrorTrackerDirective } from '../../../core/dynamic-validation-errors/validation-error-tracker.directive';
 import { ERROR_MESSAGES, ERROR_MESSAGES_LIST } from '../../../core/dynamic-validation-errors/error-messages.token';
+import { DisplayErrorOnTouchStrategy, ErrorDisplayStrategy } from '../../../core/dynamic-validation-errors/error-display-strategy.service';
 
 @Component({
   selector: 'app-rating-picker-page',
@@ -21,6 +22,10 @@ import { ERROR_MESSAGES, ERROR_MESSAGES_LIST } from '../../../core/dynamic-valid
         ...ERROR_MESSAGES_LIST,
         required: `You have to provide a value`
       }
+    },
+    {
+      provide: ErrorDisplayStrategy,
+      useClass: DisplayErrorOnTouchStrategy
     }
   ]
 })
