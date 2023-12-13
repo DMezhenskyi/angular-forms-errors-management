@@ -15,7 +15,7 @@ export class ErrorDisplayStrategy implements ErrorDisplayStrategy {
    * isErrorVisible() takes in arguments the corresponding form control model, so...
    * just check if control is valid/touched/dirty/etc and return true/false depending on it
    */
-  isErrorVisible(control: AbstractControl | null, form: FormGroupDirective | null) {
-    return true;
+  isErrorVisible(control: AbstractControl | null, form?: FormGroupDirective | null) {
+    return control && control.invalid && control.dirty;
   }
 }

@@ -2,6 +2,7 @@ import { ComponentRef, Directive, OnDestroy, OnInit, ViewContainerRef, inject } 
 import { FormControlName } from '@angular/forms';
 import { ErrorsListComponent } from './errors-list.component';
 import { Subscription, startWith } from 'rxjs';
+import { ErrorDisplayStrategy } from './error-display-strategy.service';
 
 @Directive({
   selector: '[validationErrorTracker], [formControlName]',
@@ -11,6 +12,8 @@ export class ValidationErrorTrackerDirective implements OnInit, OnDestroy {
   formControl = inject(FormControlName, {self: true});
   container = inject(ViewContainerRef);
   errorListRef: ComponentRef<ErrorsListComponent> | null = null;
+
+  errorDisplayStrategy = inject(ErrorDisplayStrategy);
 
   #formControlStatus!: Subscription;
   /**
@@ -23,8 +26,8 @@ export class ValidationErrorTrackerDirective implements OnInit, OnDestroy {
   ngOnInit() {
     this.#formControlStatus = this.formControl.control.statusChanges.pipe(
       startWith(this.formControl.control.status)
-    ).subscribe((status) => {
-      if (status === 'INVALID') {
+    ).subscribe(() => {
+      if (this.errorDisplayStrategy.isErrorVisible(this.formControl.control)) {
         if (!this.errorListRef) {
           this.errorListRef = this.container.createComponent(ErrorsListComponent);
         }
