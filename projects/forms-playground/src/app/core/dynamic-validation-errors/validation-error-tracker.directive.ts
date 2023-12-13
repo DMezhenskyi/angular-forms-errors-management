@@ -1,5 +1,6 @@
-import { Directive, OnInit, inject } from '@angular/core';
+import { ComponentRef, Directive, OnInit, ViewContainerRef, inject } from '@angular/core';
 import { FormControlName } from '@angular/forms';
+import { ErrorsListComponent } from './errors-list.component';
 
 @Directive({
   selector: '[validationErrorTracker]',
@@ -7,6 +8,8 @@ import { FormControlName } from '@angular/forms';
 })
 export class ValidationErrorTrackerDirective implements OnInit {
   formControl = inject(FormControlName, {self: true});
+  container = inject(ViewContainerRef);
+  errorListRef: ComponentRef<ErrorsListComponent> | null = null;
   /**
    * This directive is responsible for listening to the status changes (Valid/Invalid)
    * of the formControl which resides on the same node with this directive.
@@ -15,6 +18,15 @@ export class ValidationErrorTrackerDirective implements OnInit {
    * as an input for errors-list component. Otherwise, the component has to be destroyed.
    */
   ngOnInit() {
-    this.formControl.control.statusChanges.subscribe(console.log)
+    this.formControl.control.statusChanges.subscribe((status) => {
+      if (status === 'INVALID') {
+        if (!this.errorListRef) {
+          this.errorListRef = this.container.createComponent(ErrorsListComponent);
+        }
+      } else {
+        this.errorListRef?.destroy();
+        this.errorListRef = null;
+      }
+    })
   }
 }

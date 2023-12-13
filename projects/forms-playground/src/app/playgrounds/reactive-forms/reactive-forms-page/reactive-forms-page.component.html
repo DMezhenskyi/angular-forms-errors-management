@@ -8,17 +8,6 @@
       placeholder="Enter your name"
       validationErrorTracker
     />
-    @if(this.form.get('displayName')?.dirty) {
-      @if (this.form.get('displayName')?.hasError('required')) {
-        <div class="input-error">This field is required</div>
-      }
-      @if (this.form.get('displayName')?.hasError('minlength')) {
-        <div class="input-error">This field is too short</div>
-      }
-      @if (this.form.get('displayName')?.hasError('banWords')) {
-        <div class="input-error">This word is not allowed</div>
-      }
-    }
   </div>
   <div class="form-field">
     <label for="nick-name">Nick Name</label>
