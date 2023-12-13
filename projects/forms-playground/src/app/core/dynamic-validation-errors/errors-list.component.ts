@@ -1,6 +1,7 @@
 import { KeyValuePipe } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { ValidationErrors } from '@angular/forms';
+import { ERROR_MESSAGES } from './error-messages.token';
 
 @Component({
   selector: 'errors-list',
@@ -19,14 +20,7 @@ import { ValidationErrors } from '@angular/forms';
   styles: [`:host { display: block; }`],
 })
 export class ErrorsListComponent {
-  errorMessages: { [key: string]: string } = {
-    required: `This field is required`,
-    email: `It should be a valid email`,
-    minlength: `The value is too short`,
-    pattern: `Field has wrong format`,
-    banWords: `This word is not allowed`,
-    uniqueName: `This nickname is already taken`,
-  }
+  errorMessages = inject(ERROR_MESSAGES);
   @Input()
   errors?: ValidationErrors | undefined;
 }
