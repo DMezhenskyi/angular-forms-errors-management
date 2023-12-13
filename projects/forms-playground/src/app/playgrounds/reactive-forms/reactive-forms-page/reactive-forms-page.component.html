@@ -1,0 +1,108 @@
+<form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="form-field">
+    <label for="displayName">Display Name</label>
+    <input
+      type="text"
+      formControlName="displayName"
+      id="displayName"
+      placeholder="Enter your name"
+    />
+    @if(this.form.get('displayName')?.dirty) {
+      @if (this.form.get('displayName')?.hasError('required')) {
+        <div class="input-error">This field is required</div>
+      }
+      @if (this.form.get('displayName')?.hasError('minlength')) {
+        <div class="input-error">This field is too short</div>
+      }
+      @if (this.form.get('displayName')?.hasError('banWords')) {
+        <div class="input-error">This word is not allowed</div>
+      }
+    }
+  </div>
+  <div class="form-field">
+    <label for="nick-name">Nick Name</label>
+    <input
+      formControlName="nickname"
+      type="text"
+      id="nick-name"
+      placeholder="Come up with a nick name"
+    />
+    @if(this.form.get('nickname')?.dirty) {
+      @if (this.form.get('nickname')?.hasError('required')) {
+        <div class="input-error">This field is required</div>
+      }
+      @if (this.form.get('nickname')?.hasError('minlength')) {
+        <div class="input-error">This field is too short</div>
+      }
+      @if (this.form.get('nickname')?.hasError('pattern')) {
+        <div class="input-error">Only letters, numbers and _ is allowed</div>
+      }
+      @if (this.form.get('nickname')?.hasError('banWords')) {
+        <div class="input-error">This word is not allowed</div>
+      }
+      @if (this.form.get('nickname')?.hasError('uniqueName')) {
+        <div class="input-error">This nickname is already taken</div>
+      }
+    }
+  </div>
+  <div class="form-field">
+    <label for="email">Email</label>
+    <input
+      formControlName="email"
+      type="email"
+      id="email"
+      placeholder="Provide your email"
+    />
+    @if(this.form.get('email')?.dirty) {
+      @if (this.form.get('email')?.hasError('required')) {
+        <div class="input-error">This field is required</div>
+      }
+      @if (this.form.get('email')?.hasError('email')) {
+        <div class="input-error">It is not a valid email</div>
+      }
+    }
+  </div>
+  <div class="form-field-inline-group">
+    <div class="form-field form-field--small">
+      <label for="year-of-birth">Year of birth</label>
+      <select formControlName="yearOfBirth" id="year-of-birth">
+        <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+      </select>
+    </div>
+    <div class="form-field form-field--small">
+      <label for="passport">Passport Number</label>
+      <input
+        formControlName="passportNumber"
+        type="text"
+        id="passport"
+        placeholder="Provide Passport Data"
+      />
+    </div>
+  </div>
+  <fieldset formGroupName="address">
+    <legend>Address</legend>
+    <div class="form-field">
+      <label for="full-address">Full Address</label>
+      <input
+        formControlName="fullAddress"
+        type="text"
+        id="full-address"
+        placeholder="Street name and house number"
+      />
+    </div>
+    <div class="form-field">
+      <label for="city">City</label>
+      <input formControlName="city" type="text" id="city" placeholder="City" />
+    </div>
+    <div class="form-field">
+      <label for="post-code">Post Code</label>
+      <input
+        formControlName="postCode"
+        type="number"
+        id="post-code"
+        placeholder="Post code"
+      />
+    </div>
+  </fieldset>
+  <button [disabled]="!form.valid">Save</button>
+</form>
