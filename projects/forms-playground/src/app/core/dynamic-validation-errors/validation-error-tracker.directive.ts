@@ -1,10 +1,12 @@
-import { Directive } from '@angular/core';
+import { Directive, inject } from '@angular/core';
+import { FormControlName } from '@angular/forms';
 
 @Directive({
   selector: '[validationErrorTracker]',
   standalone: true,
 })
 export class ValidationErrorTrackerDirective {
+  formControl = inject(FormControlName, {self: true});
   /**
    * This directive is responsible for listening to the status changes (Valid/Invalid)
    * of the formControl which resides on the same node with this directive.
