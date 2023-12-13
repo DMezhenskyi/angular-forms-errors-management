@@ -19,6 +19,14 @@ import { ValidationErrors } from '@angular/forms';
   styles: [`:host { display: block; }`],
 })
 export class ErrorsListComponent {
+  errorMessages = {
+    required: `This field is required`,
+    email: `It should be a valid email`,
+    minlength: `The value is too short`,
+    pattern: `Field has wrong format`,
+    banWords: `This word is not allowed`,
+    uniqueName: `This nickname is already taken`,
+  }
   @Input()
   errors?: ValidationErrors | undefined;
 }
