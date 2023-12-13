@@ -5,6 +5,7 @@ import {
 } from '../rating-picker/rating-picker.component';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ValidationErrorTrackerDirective } from '../../../core/dynamic-validation-errors/validation-error-tracker.directive';
+import { ERROR_MESSAGES, ERROR_MESSAGES_LIST } from '../../../core/dynamic-validation-errors/error-messages.token';
 
 @Component({
   selector: 'app-rating-picker-page',
@@ -13,6 +14,15 @@ import { ValidationErrorTrackerDirective } from '../../../core/dynamic-validatio
   templateUrl: './rating-picker-page.component.html',
   styleUrls: ['../../common-page.scss', './rating-picker-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    { 
+      provide: ERROR_MESSAGES,
+      useValue: {
+        ...ERROR_MESSAGES_LIST,
+        required: `You have to provide a value`
+      }
+    }
+  ]
 })
 export default class RatingPickerPageComponent implements OnInit {
   form = new FormGroup({
