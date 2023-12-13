@@ -12,7 +12,9 @@ import { ValidationErrors } from '@angular/forms';
          All the error keys and the corresponding messages you can get
          by injecting the ERROR_MESSAGES token we created earlier.
     -->
-    <div class="input-error">__Error Message Here__</div>
+    @for(error of errors | keyvalue; track error.key) {
+      <div class="input-error">{{error.key}}</div>
+    }
   `,
   styles: [`:host { display: block; }`],
 })
