@@ -1,6 +1,7 @@
 import { ComponentRef, Directive, OnInit, ViewContainerRef, inject } from '@angular/core';
 import { FormControlName } from '@angular/forms';
 import { ErrorsListComponent } from './errors-list.component';
+import { startWith } from 'rxjs';
 
 @Directive({
   selector: '[validationErrorTracker]',
@@ -18,7 +19,9 @@ export class ValidationErrorTrackerDirective implements OnInit {
    * as an input for errors-list component. Otherwise, the component has to be destroyed.
    */
   ngOnInit() {
-    this.formControl.control.statusChanges.subscribe((status) => {
+    this.formControl.control.statusChanges.pipe(
+      startWith(this.formControl.control.status)
+    ).subscribe((status) => {
       if (status === 'INVALID') {
         if (!this.errorListRef) {
           this.errorListRef = this.container.createComponent(ErrorsListComponent);
