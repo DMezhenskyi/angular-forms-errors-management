@@ -13,13 +13,13 @@ import { ValidationErrors } from '@angular/forms';
          by injecting the ERROR_MESSAGES token we created earlier.
     -->
     @for(error of errors | keyvalue; track error.key) {
-      <div class="input-error">{{error.key}}</div>
+      <div class="input-error">{{errorMessages[error.key]}}</div>
     }
   `,
   styles: [`:host { display: block; }`],
 })
 export class ErrorsListComponent {
-  errorMessages = {
+  errorMessages: { [key: string]: string } = {
     required: `This field is required`,
     email: `It should be a valid email`,
     minlength: `The value is too short`,
