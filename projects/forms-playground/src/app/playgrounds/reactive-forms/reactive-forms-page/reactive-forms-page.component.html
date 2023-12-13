@@ -6,6 +6,7 @@
       formControlName="displayName"
       id="displayName"
       placeholder="Enter your name"
+      validationErrorTracker
     />
     @if(this.form.get('displayName')?.dirty) {
       @if (this.form.get('displayName')?.hasError('required')) {

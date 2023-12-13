@@ -15,11 +15,12 @@ import {
 import { banWords } from '../../../core/validators/ban-words.validator';
 import { NicknameCheckerValidator } from '../../../core/validators/nickname-checker.validator';
 import { startWith, tap } from 'rxjs';
+import { ValidationErrorTrackerDirective } from '../../../core/dynamic-validation-errors/validation-error-tracker.directive';
 
 @Component({
   selector: 'app-reactive-forms-page',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, ValidationErrorTrackerDirective],
   templateUrl: './reactive-forms-page.component.html',
   styleUrls: [
     '../../common-page.scss',
