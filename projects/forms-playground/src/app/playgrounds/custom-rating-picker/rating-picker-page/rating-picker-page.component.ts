@@ -4,11 +4,12 @@ import {
   RatingPickerComponent,
 } from '../rating-picker/rating-picker.component';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ValidationErrorTrackerDirective } from '../../../core/dynamic-validation-errors/validation-error-tracker.directive';
 
 @Component({
   selector: 'app-rating-picker-page',
   standalone: true,
-  imports: [RatingPickerComponent, ReactiveFormsModule],
+  imports: [RatingPickerComponent, ReactiveFormsModule, ValidationErrorTrackerDirective],
   templateUrl: './rating-picker-page.component.html',
   styleUrls: ['../../common-page.scss', './rating-picker-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
