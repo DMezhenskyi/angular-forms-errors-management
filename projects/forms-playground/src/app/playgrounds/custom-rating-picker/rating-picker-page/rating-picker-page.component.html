@@ -1,0 +1,13 @@
+<form [formGroup]="form" (submit)="onSubmit()">
+  <app-rating-picker formControlName="rating" value="good" />
+  <textarea
+    formControlName="feedback"
+    type="text"
+    placeholder="You Feedback..."
+    style="margin-top: 15px"
+  ></textarea>
+  @if (form.controls.feedback.dirty && form.controls.feedback.hasError('required')) {
+    <div class="input-error">This field is required</div>
+  }
+  <button>Submit</button>
+</form>
