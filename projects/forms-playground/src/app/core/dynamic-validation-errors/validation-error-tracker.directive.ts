@@ -28,6 +28,7 @@ export class ValidationErrorTrackerDirective implements OnInit, OnDestroy {
         if (!this.errorListRef) {
           this.errorListRef = this.container.createComponent(ErrorsListComponent);
         }
+        this.errorListRef.setInput('errors', this.formControl.control.errors);
       } else {
         this.errorListRef?.destroy();
         this.errorListRef = null;
