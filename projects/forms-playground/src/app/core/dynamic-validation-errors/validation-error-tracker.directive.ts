@@ -4,7 +4,7 @@ import { ErrorsListComponent } from './errors-list.component';
 import { Subscription, startWith } from 'rxjs';
 
 @Directive({
-  selector: '[validationErrorTracker]',
+  selector: '[validationErrorTracker], [formControlName]',
   standalone: true,
 })
 export class ValidationErrorTrackerDirective implements OnInit, OnDestroy {
