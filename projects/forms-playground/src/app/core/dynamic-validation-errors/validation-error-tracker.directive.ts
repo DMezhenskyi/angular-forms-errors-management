@@ -5,7 +5,10 @@ import { Subscription, fromEvent, merge, startWith } from 'rxjs';
 import { ErrorDisplayStrategy } from './error-display-strategy.service';
 
 @Directive({
-  selector: '[validationErrorTracker],[formControlName],[formControl]',
+  selector: `
+    [formControlName]:not([withoutValidationErrors]),
+    [formControl]:not([withoutValidationErrors])
+  `,
   standalone: true
 })
 export class ValidationErrorTrackerDirective implements OnInit, OnDestroy {
