@@ -1,15 +1,19 @@
 import { ComponentRef, Directive, ElementRef, OnDestroy, OnInit, ViewContainerRef, inject } from '@angular/core';
-import { FormControlName } from '@angular/forms';
+import { ControlContainer, FormControlDirective, FormControlName, FormGroupDirective, NgControl } from '@angular/forms';
 import { ErrorsListComponent } from './errors-list.component';
 import { Subscription, fromEvent, merge, startWith } from 'rxjs';
 import { ErrorDisplayStrategy } from './error-display-strategy.service';
 
 @Directive({
-  selector: '[validationErrorTracker], [formControlName]',
-  standalone: true,
+  selector: '[validationErrorTracker],[formControlName],[formControl]',
+  standalone: true
 })
 export class ValidationErrorTrackerDirective implements OnInit, OnDestroy {
-  formControl = inject(FormControlName, {self: true});
+  formControl = inject(NgControl, {self: true}) as FormControlName | FormControlDirective;
+
+  // getting the instance of the parent form directive instance through the closest form group;
+  form = inject(ControlContainer, { optional: true })?.formDirective as FormGroupDirective | null 
+  
   container = inject(ViewContainerRef);
   errorListRef: ComponentRef<ErrorsListComponent> | null = null;
 
@@ -17,13 +21,7 @@ export class ValidationErrorTrackerDirective implements OnInit, OnDestroy {
 
   #formControlStatus!: Subscription;
   #nativeEl = inject(ElementRef).nativeElement;
-  /**
-   * This directive is responsible for listening to the status changes (Valid/Invalid)
-   * of the formControl which resides on the same node with this directive.
-   * If it happens, that the control is invalid, the directive should create dynamically
-   * the instance of the errors-list component and pass errors from the form control
-   * as an input for errors-list component. Otherwise, the component has to be destroyed.
-   */
+
   ngOnInit() {
     this.#formControlStatus = merge(
       this.formControl.control.statusChanges,
@@ -31,7 +29,7 @@ export class ValidationErrorTrackerDirective implements OnInit, OnDestroy {
     ).pipe(
       startWith(this.formControl.control.status)
     ).subscribe(() => {
-      if (this.errorDisplayStrategy.isErrorVisible(this.formControl.control)) {
+      if (this.errorDisplayStrategy.isErrorVisible(this.formControl.control, this.form)) {
         if (!this.errorListRef) {
           this.errorListRef = this.container.createComponent(ErrorsListComponent);
         }
